@@ -1,12 +1,18 @@
 const AuthClientContext = require('./haystack-auth/auth/AuthClientContext');
 
-let a = new AuthClientContext('https://bip.ecovoxinc.com/api/miracosta/about', 'mcdglux', 'WQX8R-78LTC-PCN6G', false);
-
-a.login(
-  function(headers) {
-    console.log('success: Authorization: ' + headers['Authorization']);
-  },
-  function(msg) {
-    console.log('Failed: ' + msg);
+window.skysparkAuth = function(url, user, password, callback, proxyHeader) {
+  if (proxyHeader) {
+    AuthClientContext.AUTH_HEADER = 'proxy-Authorization';
   }
-);
+
+  let a = new AuthClientContext(url, user, password, false);
+
+  a.login(
+    function(headers) {
+      callback(headers['Authorization']);
+    },
+    function(msg) {
+      console.log('Skyspark Authentication Failed: ' + msg);
+    }
+  );
+};
