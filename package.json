@@ -1,21 +1,21 @@
 {
   "name": "SCRAM-auth-ts",
   "version": "0.0.1",
-  "license": "MPL-2.0",
+  "license": "AFL-3.0",
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
-    "@types/node": "^13.5.0",
-    "@types/node-fetch": "^2.5.4",
-    "node-fetch": "^2.6.0",
+    "parcel-bundler": "^1.12.4",
     "prettier": "^1.19.1",
-    "rollup": "^1.31.1",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
+    "rollup": "^1.31.1"
   },
   "scripts": {
-    "build": "yarn rollup index.ts --format iife --name \"bundle\" --file scram.js",
-    "run": "ts-node index.ts"
+    "build": "yarn parcel build src/index.js",
+    "build-rollup": "yarn rollup -c",
+    "run": "node ./src/index.js"
+  },
+  "dependencies": {
+    "@skyfoundry/haystack-auth": "^1.0.0"
   }
 }
