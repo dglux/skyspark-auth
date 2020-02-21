@@ -31,6 +31,12 @@ function AuthClientContext(uri, user, pass, reject) {
     this.reject = reject;
 }
 
+AuthClientContext.AUTH_HEADER = "Authorization";
+function makeAuthHeader(value) {
+  let result = {};
+  result[AuthClientContext.AUTH_HEADER] = value;
+  return result;
+}
 /**
  * Attempts to login with the information of the AuthClientContext object
  *
@@ -51,7 +57,7 @@ AuthClientContext.prototype.login = function(onSuccess, onFail)
     var username = this.user;
     var password = this.pass;
     var u64 = this.str2b64uriUtf8(username);
-    var authInfo = cur.prepare({"Authorization":'hello username=' + u64});
+    var authInfo = cur.prepare(makeAuthHeader('hello username=' + u64));
     this.sendReq(authInfo, 'GET', 'about', function (callback)
     {
         if (callback.statusCode == 303) //must redirect request
@@ -212,7 +218,7 @@ AuthClientContext.prototype.scram = function (username, password, hello)
     var header = '' + hello.name + ' data=' + c2_data;
     var tok = scheme1.params["handshaketoken"];
     if (tok != null) header += ", handshakeToken=" + tok;
-    var authInfo = cur.prepare({"Authorization":header});
+    var authInfo = cur.prepare(makeAuthHeader(header));
     cur.sendReq(authInfo, 'GET', 'about', function (callback)
     {
       if (callback.statusCode != 200)
@@ -222,7 +228,7 @@ AuthClientContext.prototype.scram = function (username, password, hello)
       else
       {
         this.pass = null;
-        cur.headers["Authorization"] = "bearer " + callback.headers["authentication-info"].split(",")[0];
+        cur.headers[AuthClientContext.AUTH_HEADER] = "bearer " + callback.headers["authentication-info"].split(",")[0];
         cur.onSuccess(cur.headers);
       }
     });
@@ -233,7 +239,7 @@ AuthClientContext.prototype.scram = function (username, password, hello)
   if (tok != null) header += ", handshakeToken=" + tok;
 
   //var cur = this;
-  var authInfo = cur.prepare({"Authorization":header});
+  var authInfo = cur.prepare(makeAuthHeader(header));
   cur.sendReq(authInfo, 'GET', 'about', function (callback)
   {
     if (callback.statusCode != 401)
