@@ -8,11 +8,4 @@ node_modules
 /.cache
 build
 /dist
-/src/**/*.js
-/test/**/*.js
-/example/**/*.js
-*.map
-*.jsx
-/tool/**/*.js
 /temp
-/scram.js
