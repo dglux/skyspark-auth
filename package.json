@@ -1,5 +1,5 @@
 {
-  "name": "SCRAM-auth-ts",
+  "name": "skyspark-auth",
   "version": "0.0.1",
   "license": "AFL-3.0",
   "devDependencies": {
