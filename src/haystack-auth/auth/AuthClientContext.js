@@ -23,7 +23,7 @@ var MyCrypto = require('../crypto/MyCrypto'),
 function AuthClientContext(uri, user, pass, reject) {
     this.curUri = url.parse(uri);
     this.host = this.curUri.hostname;
-    this.path = this.curUri.pathname;
+    this.path = this.curUri.path;
     this.port = this.curUri.port;
     this.user = user;
     this.pass = pass;
@@ -31,10 +31,17 @@ function AuthClientContext(uri, user, pass, reject) {
     this.reject = reject;
 }
 
-AuthClientContext.AUTH_HEADER = "Authorization";
+let AUTH_HEADER = 'Authorization';
+AuthClientContext.getAuthHeader = function() {
+  return AUTH_HEADER;
+};
+AuthClientContext.useProxy = function() {
+  AUTH_HEADER = 'prx-Authorization';
+};
+
 function makeAuthHeader(value) {
   let result = {};
-  result[AuthClientContext.AUTH_HEADER] = value;
+  result[AUTH_HEADER] = value;
   return result;
 }
 /**
@@ -228,7 +235,7 @@ AuthClientContext.prototype.scram = function (username, password, hello)
       else
       {
         this.pass = null;
-        cur.headers[AuthClientContext.AUTH_HEADER] = "bearer " + callback.headers["authentication-info"].split(",")[0];
+        cur.headers[AUTH_HEADER] = "bearer " + callback.headers["authentication-info"].split(",")[0];
         cur.onSuccess(cur.headers);
       }
     });
