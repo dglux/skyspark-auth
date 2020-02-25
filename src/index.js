@@ -35,7 +35,3 @@ window.skysparkAuth = function(url, user, password, callback, proxyHeader) {
     }
   );
 };
-
-// skysparkAuth('https://bip.ecovoxinc.com/api/miracosta', 'mcdglux', 'WQX8R-78LTC-PCN6G', (auth)=>{
-//   console.log(auth);
-// }, false);
