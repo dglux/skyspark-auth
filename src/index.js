@@ -11,7 +11,7 @@ window.skysparkAuth = function(url, user, password, callback, proxyHeader) {
   a.login(
     function(headers) {
       let auth = headers[AuthClientContext.getAuthHeader()] || headers['Authentication-Info'];
-      let parts = auth?.split(/[= ,]/g);
+      let parts = auth && auth.split(/[= ,]/g);
       if (parts) {
         let authTokenPos = parts.indexOf('authToken');
         if (authTokenPos > -1) {
